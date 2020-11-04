@@ -32,7 +32,7 @@ const border = svg.append('path').attr('class', 'border').call(redraw);
 let mousing = 0;
 
 function mousedown(d) {
-  console.log(this)
+
   mousing = d.fill ? -1 : +1;
   mousemove.apply(this, arguments);
 }
