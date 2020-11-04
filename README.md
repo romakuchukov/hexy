@@ -1,1 +1,1 @@
-# Simple D3 animation
+# Simple D3 Hexagon board
