@@ -1,19 +1,16 @@
 {
-  "name": "rollup-babel-set-up",
+  "name": "hexy",
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "scss": "sass --watch style.scss:dist/style.css",
-    "build": "rollup -c rollup.prod.config.js",
+    "build": "rollup -c prod.rollup.config.js",
     "watch": "rollup -c -w",
     "sync": "browser-sync --serveStatic . --files dist -w",
     "php": "php -S localhost:8000",
     "dev": "yarn run scss & yarn run watch & yarn run sync"
   },
-  "dependencies": {
-    "d3-selection": "^2.0.0",
-    "d3-transition": "^2.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/plugin-transform-arrow-functions": "^7.10.4",
