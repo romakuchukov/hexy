@@ -3,13 +3,14 @@ const height = 500;
 const radius = 20;
 
 const topology = hexTopology(radius, width, height);
-
 const projection = hexProjection(radius);
 
 const path = d3.geo.path().projection(projection);
 
-const svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
-
+const svg = d3.select('body').append('svg')
+//.attr('width', width).attr('height', height);
+.attr('preserveAspectRatio', 'xMinYMin meet').attr('viewBox', `0 0 ${width} ${height}`)
+//preserveAspectRatio="xMinYMin meet" viewBox="0 0 960 500"
 svg.append('g')
   .attr('class', 'hexagon')
   .selectAll('path')
