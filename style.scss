@@ -9,9 +9,41 @@ body {
 }
 
 body {
-  margin: 0 auto;
-  max-width: 1000px;
-  font-family: monospace;
-  box-sizing: border-box;
-  padding: 0 10px;
+  // margin: 0 auto;
+  // max-width: 1000px;
+  // font-family: monospace;
+  // box-sizing: border-box;
+  // padding: 0 10px;
+}
+
+.hexagon {
+  fill: white;
+  pointer-events: all;
+}
+
+.hexagon path {
+  -webkit-transition: fill 250ms linear;
+  transition: fill 250ms linear;
+}
+
+.hexagon :hover {
+  fill: pink;
+}
+
+.hexagon .fill {
+  fill: red;
+}
+
+.mesh {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .2;
+  pointer-events: none;
+}
+
+.border {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+  pointer-events: none;
 }
