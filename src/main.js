@@ -5,7 +5,9 @@ const height = 500;
 const radius = 20;
 
 const projection = hexProjection(radius);
-
+// n(n){return n&&("function"==typeof a&&u.pointRadius(+a.apply(this,arguments)),o&&o.valid||(o=i(u)),ao.geo.stream(n,o)),u.result()}
+// o(n){return n&&("function"==typeof i&&e.pointRadius(+i.apply(this,arguments)),z(n,r(e))),e.result()}
+//const path2 = d3.geoPath().projection(projection)
 const path = d3.geo.path().projection(projection);
 
 const svg = d3.select('body')
@@ -19,12 +21,12 @@ svg.append('g')
   .selectAll('path')
   .data(topology.objects.hexagons.geometries)
   .enter().append('path')
-  .attr('d', function(d) { return path(topojson.feature(topology, d)); })
-  .attr('class', function(d) { return d.fill ? 'fill' : null; })
+  .attr('d', (d) => path(topojson.feature(topology, d)))
+  .attr('class', (d) => d.fill ? 'fill' : null)
   .on('mousedown', mousedown)
   .on('mousemove', mousemove)
   .on('mouseup', mouseup);
-
+//{type: "Polygon", arcs: Array(1), fill: false}
 svg.append('path')
   .datum(topojson.mesh(topology, topology.objects.hexagons))
   .attr('class', 'mesh')
@@ -35,14 +37,16 @@ const border = svg.append('path').attr('class', 'border').call(redraw);
 let mousing = 0;
 
 function mousedown(d) {
-
-  mousing = d.fill ? -1 : +1;
-  mousemove.apply(this, arguments);
+  console.log(d)
+  console.log(this)
+  console.log(d.target.__data__)
+  mousing = d.target.__data__.fill ? -1 : +1;
+  mousemove.apply(d.target, arguments);
 }
 
 function mousemove(d) {
   if (mousing) {
-    d3.select(this).classed('fill', d.fill = mousing > 0);
+    d3.select(this).classed('fill', d.target.__data__.fill = mousing > 0);
     border.call(redraw);
   }
 }
@@ -53,7 +57,7 @@ function mouseup() {
 }
 
 function redraw(border) {
-  border.attr('d', path(topojson.mesh(topology, topology.objects.hexagons, function(a, b) { return a.fill ^ b.fill; })));
+  border.attr('d', path(topojson.mesh(topology, topology.objects.hexagons, (a, b) => a.fill ^ b.fill)));
 }
 
 function hexProjection(radius) {
