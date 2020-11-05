@@ -19,19 +19,9 @@ body {
 .hexagon {
   fill: white;
   pointer-events: all;
-}
-
-.hexagon path {
-  -webkit-transition: fill 250ms linear;
-  transition: fill 250ms linear;
-}
-
-.hexagon :hover {
-  fill: pink;
-}
-
-.hexagon .fill {
-  fill: red;
+  path { transition: fill 250ms linear; }
+  :hover { fill: #dcdcdc; }
+  .fill { fill: red; }
 }
 
 .mesh {
@@ -44,6 +34,6 @@ body {
 .border {
   fill: none;
   stroke: #000;
-  stroke-width: 2px;
+  stroke-width: 1.5px;
   pointer-events: none;
 }
