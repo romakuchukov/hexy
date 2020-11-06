@@ -21,12 +21,10 @@ const hexProjection = (radius) => {
 const projection = hexProjection(radius);
 const path = d3.geoPath().projection(projection);
 
-const mousemove = () => { border.call(redraw); }
-
 const onClick = (e, data) => {
   data.fill = !data.fill;
   d3.select(e.target).classed('fill', data.fill);
-  mousemove(e, data);
+  border.call(redraw);
 }
 
 const svg = d3.select('body')
@@ -42,13 +40,13 @@ svg.append('g')
   .enter().append('path')
   .attr('d', (d) => path(topojson.feature(topology, d)))
   .attr('class', (d) => d.fill ? 'fill' : null)
-  .on('mousemove', mousemove)
   .on('click', onClick)
 
 svg.append('path')
   .datum(topojson.mesh(topology, topology.objects.hexagons))
   .attr('class', 'mesh')
   .attr('d', path);
+
 
 const redraw = (border) => {
   border.attr('d', path(topojson.mesh(topology, topology.objects.hexagons, (a, b) => a.fill ^ b.fill)));
