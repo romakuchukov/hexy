@@ -16,24 +16,28 @@ body {
   box-sizing: border-box;
 }
 
-.hexagon {
-  fill: white;
-  pointer-events: all;
-  path { transition: fill 250ms linear; }
-  :hover { fill: #dcdcdc; }
-  .fill { fill: red; }
-}
+svg {
+  overflow: visible;
 
-.mesh {
-  fill: none;
-  stroke: #000;
-  stroke-opacity: .2;
-  pointer-events: none;
-}
+  .hexagon {
+    fill: white;
+    pointer-events: all;
+    path { transition: fill 250ms linear; }
+    :hover { fill: #dcdcdc; }
+    .fill { fill: red; }
+  }
 
-.border {
-  fill: none;
-  stroke: #000;
-  stroke-width: 1.5px;
-  pointer-events: none;
+  .mesh {
+    fill: none;
+    stroke: #000;
+    stroke-opacity: .2;
+    pointer-events: none;
+  }
+
+  .border {
+    fill: none;
+    stroke: #000;
+    stroke-width: 1.5px;
+    pointer-events: none;
+  }
 }
