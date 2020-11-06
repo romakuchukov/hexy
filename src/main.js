@@ -4,28 +4,30 @@ const width = 960;
 const height = 500;
 const radius = 20;
 
+const hexProjection = (radius) => {
+  const dx = radius * 2 * Math.sin(Math.PI / 3);
+  const dy = radius * 1.5;
+  return {
+    stream: (stream) => ({
+        point: (x, y) => { stream.point(x * dx / 2, (y - (2 - (y & 1)) / 3) * dy / 2); },
+        lineStart: () => { stream.lineStart(); },
+        lineEnd: () => { stream.lineEnd(); },
+        polygonStart: () => { stream.polygonStart(); },
+        polygonEnd: () => { stream.polygonEnd(); }
+    })
+  };
+}
+
 const projection = hexProjection(radius);
 const path = d3.geoPath().projection(projection);
 
-let mousing = 0;
+const mousemove = () => { border.call(redraw); }
 
-function mousedown (e, data) {
-  mousing = data.fill ? -1 : +1;
-  mousemove.apply(e.target, arguments);
+const onClick = (e, data) => {
+  data.fill = !data.fill;
+  d3.select(e.target).classed('fill', data.fill);
+  mousemove(e, data);
 }
-
-function mousemove(e, data) {
-  if (mousing) {
-    d3.select(e.target).classed('fill', data.fill = mousing > 0);
-    border.call(redraw);
-  }
-}
-
-function mouseup(e) {
-  mousemove.apply(e.target, arguments);
-  mousing = 0;
-}
-
 
 const svg = d3.select('body')
   .append('svg')
@@ -40,9 +42,8 @@ svg.append('g')
   .enter().append('path')
   .attr('d', (d) => path(topojson.feature(topology, d)))
   .attr('class', (d) => d.fill ? 'fill' : null)
-  .on('mousedown', mousedown)
   .on('mousemove', mousemove)
-  .on('mouseup', mouseup);
+  .on('click', onClick)
 
 svg.append('path')
   .datum(topojson.mesh(topology, topology.objects.hexagons))
@@ -54,17 +55,3 @@ const redraw = (border) => {
 };
 
 const border = svg.append('path').attr('class', 'border').call(redraw);
-
-function hexProjection(radius) {
-  const dx = radius * 2 * Math.sin(Math.PI / 3);
-  const dy = radius * 1.5;
-  return {
-    stream: (stream) => ({
-        point: (x, y) => { stream.point(x * dx / 2, (y - (2 - (y & 1)) / 3) * dy / 2); },
-        lineStart: () => { stream.lineStart(); },
-        lineEnd: () => { stream.lineEnd(); },
-        polygonStart: () => { stream.polygonStart(); },
-        polygonEnd: () => { stream.polygonEnd(); }
-    })
-  };
-}
