@@ -1,3 +1,4 @@
+//https://bl.ocks.org/mbostock/5249328
 import topology from './data';
 
 const width = 960;
@@ -27,17 +28,16 @@ const onClick = (e, data) => {
   border.call(redraw);
 }
 
-const svg = d3.select('body')
-  .append('svg')
-  .attr('preserveAspectRatio', 'xMinYMin meet')
-  .attr('viewBox', `0 0 ${width} ${height}`)
+const svg = d3.select('body').append('svg');
 
+svg.attr('viewBox', `0 0 ${width} ${height}`).attr('preserveAspectRatio', 'xMinYMin meet');
 
 svg.append('g')
   .attr('class', 'hexagon')
   .selectAll('path')
   .data(topology.objects.hexagons.geometries)
-  .enter().append('path')
+  .enter()
+  .append('path')
   .attr('d', (d) => path(topojson.feature(topology, d)))
   .attr('class', (d) => d.fill ? 'fill' : null)
   .on('click', onClick)
@@ -47,9 +47,13 @@ svg.append('path')
   .attr('class', 'mesh')
   .attr('d', path);
 
+const border = svg.append('path').attr('class', 'border');
 
 const redraw = (border) => {
   border.attr('d', path(topojson.mesh(topology, topology.objects.hexagons, (a, b) => a.fill ^ b.fill)));
 };
 
-const border = svg.append('path').attr('class', 'border').call(redraw);
+//const outerBorder = svg.append('path').attr('class', 'outerBorder');
+
+//outerBorder.attr('d', path())
+
