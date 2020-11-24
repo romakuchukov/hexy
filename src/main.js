@@ -44,8 +44,8 @@ svg.append('g')
 
 svg.append('path')
   .datum(topojson.mesh(topology, topology.objects.hexagons))
-  .attr('class', 'mesh')
-  .attr('d', path);
+  .attr('d', path)
+  .attr('class', 'mesh');
 
 const border = svg.append('path').attr('class', 'border');
 
