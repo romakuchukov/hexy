@@ -3,7 +3,7 @@
 
 const width = 960;
 const height = 500;
-const radius = 20;
+const radius = 100;
 
 function hexTopology(radius, width, height) {
   const dx = radius * 2 * Math.sin(Math.PI / 3);
@@ -15,7 +15,8 @@ function hexTopology(radius, width, height) {
 
   for (let j = -1; j <= m; ++j) {
     for (let i = -1; i <= n; ++i) {
-      const y = j * 2, x = (i + (j & 1) / 2) * 2;
+      const y = j * 2;
+      const x = (i + (j & 1) / 2) * 2;
       arcs.push([[x, y - 1], [1, 1]], [[x + 1, y], [0, 1]], [[x + 1, y + 1], [-1, 1]]);
     }
   }
