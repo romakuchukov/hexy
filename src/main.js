@@ -1,9 +1,41 @@
 //https://bl.ocks.org/mbostock/5249328
-import topology from './data';
+//import topology from './data';
 
 const width = 960;
 const height = 500;
 const radius = 20;
+
+function hexTopology(radius, width, height) {
+  var dx = radius * 2 * Math.sin(Math.PI / 3),
+      dy = radius * 1.5,
+      m = Math.ceil((height + radius) / dy) + 1,
+      n = Math.ceil(width / dx) + 1,
+      geometries = [],
+      arcs = [];
+
+  for (var j = -1; j <= m; ++j) {
+    for (var i = -1; i <= n; ++i) {
+      var y = j * 2, x = (i + (j & 1) / 2) * 2;
+      arcs.push([[x, y - 1], [1, 1]], [[x + 1, y], [0, 1]], [[x + 1, y + 1], [-1, 1]]);
+    }
+  }
+
+  for (var j = 0, q = 3; j < m; ++j, q += 6) {
+    for (var i = 0; i < n; ++i, q += 3) {
+      geometries.push({
+        type: 'Polygon',
+        arcs: [[q, q + 1, q + 2, ~(q + (n + 2 - (j & 1)) * 3), ~(q - 2), ~(q - (n + 2 + (j & 1)) * 3 + 2)]],
+        fill: Math.random() > i / n * 2
+      });
+    }
+  }
+
+  return {
+    transform: {translate: [0, 0], scale: [1, 1]},
+    objects: {hexagons: {type: 'GeometryCollection', geometries: geometries}},
+    arcs: arcs
+  };
+}
 
 const hexProjection = (radius) => {
   const dx = radius * 2 * Math.sin(Math.PI / 3);
@@ -19,6 +51,7 @@ const hexProjection = (radius) => {
   };
 }
 
+const topology = hexTopology(radius, width, height);
 const projection = hexProjection(radius);
 const path = d3.geoPath().projection(projection);
 
@@ -38,7 +71,8 @@ svg.append('g')
   .data(topology.objects.hexagons.geometries)
   .enter()
   .append('path')
-  .attr('d', (d) => path(topojson.feature(topology, d)))
+  //.attr('d', (d) => path(topojson.feature(topology, d)))
+  .attr('d', (d) => path(topojson.mesh(topology, d)))
   .attr('class', (d) => d.fill ? 'fill' : null)
   .on('click', onClick)
 
