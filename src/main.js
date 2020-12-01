@@ -1,15 +1,15 @@
 //https://bl.ocks.org/mbostock/5249328
-//import topology from './data';
+import topology from './data';
 
 const width = 960;
 const height = 500;
-const radius = 100;
+const radius = 20;
 
-function hexTopology(radius, width, height) {
+function hexTopology2(radius, width, height) {
   const dx = radius * 2 * Math.sin(Math.PI / 3);
   const dy = radius * 1.5;
-  const m = Math.ceil((height + radius) / dy) + 1;
-  const n = Math.ceil(width / dx) + 1;
+  const m = Math.ceil((height + radius) / dy);
+  const n = Math.ceil(width / dx);
   const geometries = [];
   const arcs = [];
 
@@ -38,6 +38,34 @@ function hexTopology(radius, width, height) {
   };
 }
 
+
+const hexTopology = (rows, columns) => {
+  //[[0, 1, 2, 3, 4, 5]]
+  let arcs = [];
+  let positions = [];
+  for (let i = 0; i < 20; i++) {
+    positions.push(i);
+
+    if(i%5 === 0 && i > 0) {
+      arcs.push([positions]);
+      positions = [];
+      positions.push(i-1);
+
+    }
+
+    //a.push([0, 1, 2, 3, 4, 5])
+  }
+console.log(arcs);
+  // [0, 1, 2, 3, 4, 5]
+  // [4, 6, 7, 8, 9, 10]
+  // [9, 11, 12, 13, 14, 15]
+  // [14, 16, 17, 18, 19, 20]
+
+  //return
+}
+
+hexTopology(10, 30)//console.log();
+
 const hexProjection = (radius) => {
   const dx = radius * 2 * Math.sin(Math.PI / 3);
   const dy = radius * 1.5;
@@ -52,7 +80,8 @@ const hexProjection = (radius) => {
   };
 }
 
-const topology = hexTopology(radius, width, height);
+//const topology = hexTopology(radius, width, height);
+//console.log(JSON.stringify(topology))
 const projection = hexProjection(radius);
 const path = d3.geoPath().projection(projection);
 
