@@ -14,12 +14,12 @@ let data = {
       },
       {
         type: 'Polygon',
-        arcs: [[6, 4, 7, 8, 9, 10]],
+        arcs: [[4, 6, 7, 8, 9, 10]],
         fill: false
       },
       {
         type: 'Polygon',
-        arcs: [[11, 9, 12, 13, 14, 15]],
+        arcs: [[9, 11, 12, 13, 14, 15]],
         fill: false
       },
     ]
