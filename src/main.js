@@ -5,66 +5,29 @@ const width = 960;
 const height = 500;
 const radius = 20;
 
-function hexTopology2(radius, width, height) {
-  const dx = radius * 2 * Math.sin(Math.PI / 3);
-  const dy = radius * 1.5;
-  const m = Math.ceil((height + radius) / dy);
-  const n = Math.ceil(width / dx);
-  const geometries = [];
-  const arcs = [];
-
-  for (let j = -1; j <= m; ++j) {
-    for (let i = -1; i <= n; ++i) {
-      const y = j * 2;
-      const x = (i + (j & 1) / 2) * 2;
-      arcs.push([[x, y - 1], [1, 1]], [[x + 1, y], [0, 1]], [[x + 1, y + 1], [-1, 1]]);
-    }
-  }
-
-  for (let j = 0, q = 3; j < m; ++j, q += 6) {
-    for (let i = 0; i < n; ++i, q += 3) {
-      geometries.push({
-        type: 'Polygon',
-        arcs: [[q, q + 1, q + 2, ~(q + (n + 2 - (j & 1)) * 3), ~(q - 2), ~(q - (n + 2 + (j & 1)) * 3 + 2)]],
-        fill: Math.random() > i / n * 2
-      });
-    }
-  }
-
-  return {
-    transform: {translate: [0, 0], scale: [1, 1]},
-    objects: {hexagons: {type: 'GeometryCollection', geometries: geometries}},
-    arcs: arcs
-  };
-}
-
-
 const hexTopology = (rows, columns) => {
-  //[[0, 1, 2, 3, 4, 5]]
-  let arcs = [];
+
+  const sides = 5;
+  const polygons = sides*columns;
+
+  const hexArcs = [];
   let positions = [];
-  for (let i = 0; i < 20; i++) {
+
+  for (let i = 0; i < polygons; i++) {
     positions.push(i);
 
-    if(i%5 === 0 && i > 0) {
-      arcs.push([positions]);
+    if((i % sides) === 0 && i > 0) {
+      hexArcs.push([positions]);
       positions = [];
       positions.push(i-1);
 
     }
 
-    //a.push([0, 1, 2, 3, 4, 5])
   }
-console.log(arcs);
-  // [0, 1, 2, 3, 4, 5]
-  // [4, 6, 7, 8, 9, 10]
-  // [9, 11, 12, 13, 14, 15]
-  // [14, 16, 17, 18, 19, 20]
-
-  //return
+  console.log(hexArcs);
 }
 
-hexTopology(10, 30)//console.log();
+hexTopology(10, 4)//console.log();
 
 const hexProjection = (radius) => {
   const dx = radius * 2 * Math.sin(Math.PI / 3);
