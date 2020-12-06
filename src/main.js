@@ -5,6 +5,42 @@ const width = 960;
 const height = 500;
 const radius = 20;
 
+const {
+  arcs,
+  objects : {
+    hexagons: {
+      geometries
+    }
+  }
+} = topology;
+
+const primer = {
+  arcs: arcs.slice(1),
+  geometries: geometries[0]
+};
+
+const cloneArray = (array) => {
+  const clone = [];
+  for(const item of array) {
+    clone.push((item != null && typeof(item)==='object') ? cloneArray(item) : item);
+  }
+  return clone;
+};
+
+const test = () => {
+
+  console.log(primer.arcs)
+
+  const arcs = cloneArray(primer.arcs)//JSON.parse(JSON.stringify(primer.arcs));
+
+  arcs.forEach((val, i) => {
+    val[0][0] = val[0][0]+2
+  });
+
+  console.log(arcs)
+}
+
+test();
 const hexTopology = (rows, columns) => {
 
   const sides = 5;
