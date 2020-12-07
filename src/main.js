@@ -1,5 +1,9 @@
 //https://bl.ocks.org/mbostock/5249328
 import topology from './data';
+//import {topojson} from 'topojson';
+//import * as topojson from 'topojson';
+
+import { mesh } from 'topojson';
 
 const width = 960;
 const height = 500;
@@ -22,25 +26,26 @@ const primer = {
 const cloneArray = (array) => {
   const clone = [];
   for(const item of array) {
-    clone.push((item != null && typeof(item)==='object') ? cloneArray(item) : item);
+    console.log(item, 1)
+    clone.push((typeof(item)==='object') ? cloneArray(item) : item);
   }
   return clone;
 };
 
-const test = () => {
+const test = (rows, columns) => {
 
-  console.log(primer.arcs)
+  // console.log(primer.arcs)
 
   const arcs = cloneArray(primer.arcs)//JSON.parse(JSON.stringify(primer.arcs));
 
-  arcs.forEach((val, i) => {
-    val[0][0] = val[0][0]+2
-  });
+  do {
+    arcs[columns][0][0] = arcs[columns][0][0]+2;
+  } while(columns--);
 
-  console.log(arcs)
+  // console.log(arcs)
 }
 
-test();
+
 const hexTopology = (rows, columns) => {
 
   const sides = 5;
@@ -53,17 +58,17 @@ const hexTopology = (rows, columns) => {
     positions.push(i);
 
     if((i % sides) === 0 && i > 0) {
-      hexArcs.push([positions]);
+      hexArcs.push({ type: 'Polygon', arcs: [positions], fill: false });
       positions = [];
       positions.push(i-1);
-
     }
-
   }
-  console.log(hexArcs);
+  // console.log(topology)
+  //console.log(hexArcs);
 }
 
 hexTopology(10, 4)//console.log();
+test(10, 4);
 
 const hexProjection = (radius) => {
   const dx = radius * 2 * Math.sin(Math.PI / 3);
@@ -101,19 +106,19 @@ svg.append('g')
   .enter()
   .append('path')
   //.attr('d', (d) => path(topojson.feature(topology, d)))
-  .attr('d', (d) => path(topojson.mesh(topology, d)))
+  .attr('d', (d) => path(mesh(topology, d)))
   .attr('class', (d) => d.fill ? 'fill' : null)
   .on('click', onClick)
 
 svg.append('path')
-  .datum(topojson.mesh(topology, topology.objects.hexagons))
+  .datum(mesh(topology, topology.objects.hexagons))
   .attr('d', path)
   .attr('class', 'mesh');
 
 const border = svg.append('path').attr('class', 'border');
 
 const redraw = (border) => {
-  border.attr('d', path(topojson.mesh(topology, topology.objects.hexagons, (a, b) => a.fill ^ b.fill)));
+  border.attr('d', path(mesh(topology, topology.objects.hexagons, (a, b) => a.fill ^ b.fill)));
 };
 
 //const outerBorder = svg.append('path').attr('class', 'outerBorder');
