@@ -66,4 +66,3 @@ const primer = {
 
 export { primer, topology };
 
-// export default data;

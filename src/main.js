@@ -1,53 +1,36 @@
 //https://bl.ocks.org/mbostock/5249328
-import topology from './data';
+import { primer } from './data';
 import { mesh } from 'topojson';
-
-const width = 960;
-const height = 500;
-const radius = 20;
-
-const {
-  arcs,
-  objects : {
-    hexagons: {
-      geometries
-    }
-  }
-} = topology;
-
-const primer = {
-  arcs: arcs.slice(1),
-  geometries: geometries[0]
-};
 
 const cloneArray = (array) => {
   const clone = [];
+
   for(const item of array) {
     clone.push((typeof(item)==='object') ? cloneArray(item) : item);
   }
+
   return clone;
 };
 
-const getArcs = (rows, columns) => {
-
-  const clone = cloneArray(primer.arcs)//JSON.parse(JSON.stringify(primer.arcs));
+const getArcs = (instances, edges) => {
+  const clone = cloneArray(primer.arcs.slice(1));
   const arcs = [];
 
-  while (rows--) {
-    for (let i = 0; i < columns; i++) {
+  arcs.push(cloneArray(clone));
+
+  while (instances--) {
+    for (let i = 0; i !== clone.length; i++) {
       clone[i][0][0] = clone[i][0][0]+2;
-      arcs.push(cloneArray(clone));
     }
+    arcs.push(cloneArray(clone));
   }
 
-  return arcs;
-}
+  return arcs.flat();
+};
 
 const hexTopology = (rows, columns) => {
-
   const sides = 5;
   const polygons = sides*columns;
-
   const hexArcs = [];
   let positions = [];
 
@@ -60,12 +43,9 @@ const hexTopology = (rows, columns) => {
       positions.push(i-1);
     }
   }
-  // console.log(topology)
-  //console.log(hexArcs);
-}
 
-hexTopology(2, 4)//console.log();
-console.log(getArcs(2, 4))
+  return hexArcs;
+};
 
 const hexProjection = (radius) => {
   const dx = radius * 2 * Math.sin(Math.PI / 3);
@@ -79,10 +59,30 @@ const hexProjection = (radius) => {
         polygonEnd: () => { stream.polygonEnd(); }
     })
   };
-}
+};
 
-//const topology = hexTopology(radius, width, height);
-//console.log(JSON.stringify(topology))
+const width = 960;
+const height = 500;
+const radius = 20;
+
+const topology = {
+  transform: {
+    translate: [0, 0],
+    scale: [1, 1]
+  },
+  objects: {
+    hexagons: {
+      type: 'GeometryCollection',
+      geometries: hexTopology(2, 4)
+    }
+  },
+  arcs: [
+    [[0, 2], [0, 1]],
+    ...getArcs(2, 4)
+  ]
+};
+
+
 const projection = hexProjection(radius);
 const path = d3.geoPath().projection(projection);
 
