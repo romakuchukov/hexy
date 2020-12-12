@@ -1,8 +1,5 @@
 //https://bl.ocks.org/mbostock/5249328
 import topology from './data';
-//import {topojson} from 'topojson';
-//import * as topojson from 'topojson';
-
 import { mesh } from 'topojson';
 
 const width = 960;
@@ -26,25 +23,25 @@ const primer = {
 const cloneArray = (array) => {
   const clone = [];
   for(const item of array) {
-    console.log(item, 1)
     clone.push((typeof(item)==='object') ? cloneArray(item) : item);
   }
   return clone;
 };
 
-const test = (rows, columns) => {
+const getArcs = (rows, columns) => {
 
-  // console.log(primer.arcs)
+  const clone = cloneArray(primer.arcs)//JSON.parse(JSON.stringify(primer.arcs));
+  const arcs = [];
 
-  const arcs = cloneArray(primer.arcs)//JSON.parse(JSON.stringify(primer.arcs));
+  while (rows--) {
+    for (let i = 0; i < columns; i++) {
+      clone[i][0][0] = clone[i][0][0]+2;
+      arcs.push(cloneArray(clone));
+    }
+  }
 
-  do {
-    arcs[columns][0][0] = arcs[columns][0][0]+2;
-  } while(columns--);
-
-  // console.log(arcs)
+  return arcs;
 }
-
 
 const hexTopology = (rows, columns) => {
 
@@ -67,8 +64,8 @@ const hexTopology = (rows, columns) => {
   //console.log(hexArcs);
 }
 
-hexTopology(10, 4)//console.log();
-test(10, 4);
+hexTopology(2, 4)//console.log();
+console.log(getArcs(2, 4))
 
 const hexProjection = (radius) => {
   const dx = radius * 2 * Math.sin(Math.PI / 3);
