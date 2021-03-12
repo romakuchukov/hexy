@@ -21,38 +21,32 @@ const getArcs = ({instances, rows}) => {
 
 
   while (instances--) {
-    // for (let i = 0; i !== clonedPrimer.length; i++) {
-    //   clonedPrimer[i][0][0] = clonedPrimer[i][0][0]+2;
-    // }
     clonedPrimer.forEach(item => {
       item[0][0] = item[0][0]+2;
     });
     arcs.push(cloneArray(clonedPrimer));
   }
 
-  //let clonedArcs = cloneArray(arcs);
-  // clone and adjust cells
   let clonedArcs = cloneArray(arcs);
-
+  console.log(arcs)
   while (rows--) {
-    //console.log(, 1);
+
     clonedArcs.forEach(item => {
         item.forEach(val => {
-          //console.log(val[0][0]);
-          val[0][0] = val[0][0]+5;
-          val[1][0] = val[1][0]+5;
-          //console.log(val[0][0]);
+          //console.log(val)
+          val[0][0] = val[0][0]+1;
+          val[0][1] = val[0][1]+2;
         });
         arcs.push(cloneArray(item));
     });
   }
-
+  console.log(arcs)
   return arcs.flat();
 };
 
-const hexTopology = ({instances}) => {
+const hexTopology = ({instances, rows}) => {
   const sides = 5;
-  const polygons = sides*(instances+1);
+  const polygons = sides*(instances+1)*(rows+1);
   const hexArcs = [];
   let positions = [];
 
@@ -65,7 +59,7 @@ const hexTopology = ({instances}) => {
       positions.push(i-1);
     }
   }
-
+  console.log(hexArcs)
   return hexArcs;
 };
 
@@ -86,7 +80,7 @@ const hexProjection = (radius) => {
 const width = 960;
 const height = 500;
 const radius = 20;
-const board = { instances: 20, rows: 2 };
+const board = { instances: 20, rows: 1 };
 
 const topology = {
   transform: {
@@ -105,6 +99,7 @@ const topology = {
   ]
 };
 
+//console.log(topology.arcs[0])
 
 const projection = hexProjection(radius);
 const path = d3.geoPath().projection(projection);
