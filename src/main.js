@@ -12,25 +12,47 @@ const cloneArray = (array) => {
   return clone;
 };
 
-const getArcs = (instances, edges) => {
-  const clone = cloneArray(primer.arcs.slice(1));
+const getArcs = ({instances, rows}) => {
+
+  const clonedPrimer = cloneArray(primer.arcs.slice(1));
   const arcs = [];
 
-  arcs.push(cloneArray(clone));
+  arcs.push(cloneArray(clonedPrimer));
+
 
   while (instances--) {
-    for (let i = 0; i !== clone.length; i++) {
-      clone[i][0][0] = clone[i][0][0]+2;
-    }
-    arcs.push(cloneArray(clone));
+    // for (let i = 0; i !== clonedPrimer.length; i++) {
+    //   clonedPrimer[i][0][0] = clonedPrimer[i][0][0]+2;
+    // }
+    clonedPrimer.forEach(item => {
+      item[0][0] = item[0][0]+2;
+    });
+    arcs.push(cloneArray(clonedPrimer));
+  }
+
+  //let clonedArcs = cloneArray(arcs);
+  // clone and adjust cells
+  let clonedArcs = cloneArray(arcs);
+
+  while (rows--) {
+    //console.log(, 1);
+    clonedArcs.forEach(item => {
+        item.forEach(val => {
+          //console.log(val[0][0]);
+          val[0][0] = val[0][0]+5;
+          val[1][0] = val[1][0]+5;
+          //console.log(val[0][0]);
+        });
+        arcs.push(cloneArray(item));
+    });
   }
 
   return arcs.flat();
 };
 
-const hexTopology = (rows, columns) => {
+const hexTopology = ({instances}) => {
   const sides = 5;
-  const polygons = sides*columns;
+  const polygons = sides*(instances+1);
   const hexArcs = [];
   let positions = [];
 
@@ -64,6 +86,7 @@ const hexProjection = (radius) => {
 const width = 960;
 const height = 500;
 const radius = 20;
+const board = { instances: 20, rows: 2 };
 
 const topology = {
   transform: {
@@ -73,12 +96,12 @@ const topology = {
   objects: {
     hexagons: {
       type: 'GeometryCollection',
-      geometries: hexTopology(2, 4)
+      geometries: hexTopology(board)
     }
   },
   arcs: [
     [[0, 2], [0, 1]],
-    ...getArcs(2, 4)
+    ...getArcs(board)
   ]
 };
 
