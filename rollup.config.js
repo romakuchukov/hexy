@@ -1,5 +1,5 @@
 import babel from 'rollup-plugin-babel';
-import node from 'rollup-plugin-node-resolve';
+import node from '@rollup/plugin-node-resolve';
 
 const src = 'src/';
 const dist = 'dist';
