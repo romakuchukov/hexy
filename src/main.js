@@ -44,13 +44,13 @@ const getArcs = ({instances, rows}) => {
   return arcs.flat();
 };
 
-const hexTopology = ({instances, rows}) => {
+const hexTopology = ({ instances, rows }) => {
   const sides = 6;
-  const polygons = sides*(instances+1)*(rows+1);
+  const polygons = sides*(instances)*(rows);
   const hexArcs = [];
   let positions = [];
 
-  for (let i = 0; i < polygons; i++) {
+  for (let i = 1; i <= polygons; i++) {
     positions.push(i);
 
     if((i % sides) === 0 && i > 0) {
