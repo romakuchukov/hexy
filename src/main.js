@@ -130,6 +130,6 @@ svg.append('path')
 
 const border = svg.append('path').attr('class', 'border');
 
-const redraw = (border) => {
-  border.attr('d', path(mesh(topology, topology.objects.hexagons, (a, b) => a.fill ^ b.fill)));
+const redraw = border => {
+  border.attr('d', path(mesh(topology, topology.objects.hexagons, (a, b) => a.fill ^ b.fill )));
 };
