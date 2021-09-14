@@ -123,10 +123,12 @@ svg.append('g')
   .attr('class', (d) => d.fill ? 'fill' : null)
   .on('click', onClick)
 
+
 svg.append('path')
-  .datum(mesh(topology, topology.objects.hexagons))
-  .attr('d', path)
-  .attr('class', 'mesh');
+  .data(topology.objects.hexagons.geometries)
+  //.enter()
+  .attr('d', d => `${path(mesh(topology, d))}Z`)
+  .attr('class', 'mesh')
 
 const border = svg.append('path').attr('class', 'border');
 
