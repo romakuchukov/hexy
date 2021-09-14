@@ -63,23 +63,22 @@ const hexTopology = ({ instances, rows }) => {
   return hexArcs;
 };
 
-const hexProjection = (radius) => {
+const hexProjection = radius => {
   const dx = radius * 2 * Math.sin(Math.PI / 3);
   const dy = radius * 1.5;
   return {
-    stream: (stream) => ({
-        point: (x, y) => { stream.point(x * dx / 2, (y - (2 - (y & 1)) / 3) * dy / 2); },
-        lineStart: () => { stream.lineStart(); },
-        lineEnd: () => { stream.lineEnd(); },
-        polygonStart: () => { stream.polygonStart(); },
-        polygonEnd: () => { stream.polygonEnd(); }
+    stream: stream => ({
+      point: (x, y) => { stream.point(x * dx / 2, (y - (2 - (y & 1)) / 3) * dy / 2); },
+      lineStart: () => { stream.lineStart(); },
+      lineEnd: () => { stream.lineEnd(); },
+      polygonStart: () => { stream.polygonStart(); },
+      polygonEnd: () => { stream.polygonEnd(); }
     })
   };
 };
 
 const width = 960;
 const height = 500;
-const radius = 20;
 const board = { instances: 1, rows: 1 };
 
 const topology = {
@@ -99,8 +98,8 @@ const topology = {
   ]
 };
 
-const projection = hexProjection(radius);
-const path = d3.geoPath().projection(projection);
+const projection = hexProjection(20);
+const path = d3.geoPath(projection);
 
 const onClick = (e, data) => {
   data.fill = !data.fill;
@@ -118,9 +117,8 @@ svg.append('g')
   .data(topology.objects.hexagons.geometries)
   .enter()
   .append('path')
-  //.attr('d', (d) => path(topojson.feature(topology, d)))
-  .attr('d', (d) => path(mesh(topology, d)))
-  .attr('class', (d) => d.fill ? 'fill' : null)
+  .attr('d', d => path(mesh(topology, d)))
+  .attr('class', d => d.fill ? 'fill' : null)
   .on('click', onClick)
 
 
