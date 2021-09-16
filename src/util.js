@@ -1,5 +1,3 @@
-import { primer } from './data';
-
 const cloneArray = (array) => {
   const clone = [];
 
@@ -10,7 +8,7 @@ const cloneArray = (array) => {
   return clone;
 };
 
-export const getArcs = ({rows, columns}) => {
+export const getArcs = ({rows, columns}, primer) => {
 
   const clonedPrimer = cloneArray(primer.arcs.slice(1));
   const arcs = [];

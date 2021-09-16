@@ -1,5 +1,7 @@
 //https://bl.ocks.org/mbostock/5249328
 import { mesh } from 'topojson';
+import { primer } from './data';
+
 import { getArcs, hexProjection, hexTopology } from './util';
 
 const svg = d3.select('body').append('svg');
@@ -25,7 +27,7 @@ const topology = {
   },
   arcs: [
     [[0, 2], [0, 1]],
-    ...getArcs(board)
+    ...getArcs(board, primer)
   ]
 };
 
