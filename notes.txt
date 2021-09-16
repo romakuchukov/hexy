@@ -1,0 +1,3 @@
+yarn run dev
+yarn run esbuild:index
+yarn run esbuild:main
