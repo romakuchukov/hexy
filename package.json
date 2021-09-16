@@ -7,10 +7,9 @@
     "build": "echo \"error\"",
     "sync": "browser-sync --serveStatic . --files dist -w",
     "php": "php -S localhost:8000",
-    "esbuild:index": "esbuild src/index.js --global-name=d3 --bundle --outdir=dist/ --watch",
-    "esbuild:main": "esbuild src/main.js --bundle --outdir=dist/ --watch",
-    "watch": "yarn run scss & yarn run sync",
-    "dev": "echo \"error\""
+    "esbuild": "node esbuild.js",
+    "dev": "yarn run scss & yarn run sync",
+    "watch": "yarn run scss & yarn run sync & yarn run esbuild"
   },
   "dependencies": {
     "d3-geo": "^2.0.1",
