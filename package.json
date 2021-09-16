@@ -4,13 +4,12 @@
   "license": "MIT",
   "scripts": {
     "scss": "sass --watch style.scss:dist/style.css",
-    "build": "rollup -c prod.rollup.config.js",
-    "watch": "rollup -c -w",
+    "build": "echo \"error\"",
     "sync": "browser-sync --serveStatic . --files dist -w",
     "php": "php -S localhost:8000",
     "esbuild:index": "esbuild src/index.js --global-name=d3 --bundle --outdir=dist/ --watch",
     "esbuild:main": "esbuild src/main.js --bundle --outdir=dist/ --watch",
-    "esbuild": "yarn run esbuild:main & yarn run esbuild:index",
+    "watch": "yarn run scss & yarn run sync",
     "dev": "yarn run scss & yarn run sync"
   },
   "dependencies": {
