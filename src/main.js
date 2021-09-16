@@ -37,7 +37,7 @@ const onClick = (e, data) => {
   border.call(redraw);
 }
 
-const redraw = border => {
+const redraw = (border) => {
   border.attr('d', path(mesh(topology, topology.objects.hexagons, (a, b) => a.fill ^ b.fill )));
 };
 
