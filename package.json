@@ -10,7 +10,7 @@
     "esbuild:index": "esbuild src/index.js --global-name=d3 --bundle --outdir=dist/ --watch",
     "esbuild:main": "esbuild src/main.js --bundle --outdir=dist/ --watch",
     "watch": "yarn run scss & yarn run sync",
-    "dev": "yarn run scss & yarn run sync"
+    "dev": "echo \"error\""
   },
   "dependencies": {
     "d3-geo": "^2.0.1",
