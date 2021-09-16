@@ -10,7 +10,7 @@ const cloneArray = (array) => {
   return clone;
 };
 
-export const getArcs = ({instances, rows}) => {
+export const getArcs = ({rows, columns}) => {
 
   const clonedPrimer = cloneArray(primer.arcs.slice(1));
   const arcs = [];
@@ -18,7 +18,7 @@ export const getArcs = ({instances, rows}) => {
   arcs.push(cloneArray(clonedPrimer));
 
 
-  while (instances--) {
+  while (columns--) {
     clonedPrimer.forEach(item => {
       item[0][0] = item[0][0];
     });
@@ -56,9 +56,9 @@ export const hexProjection = (radius) => {
   };
 };
 
-export const hexTopology = ({ instances, rows }) => {
+export const hexTopology = ({ rows, columns }) => {
   const sides = 6;
-  const polygons = sides*(instances)*(rows);
+  const polygons = sides*(columns)*(rows);
   const hexArcs = [];
   let positions = [];
 

@@ -10,7 +10,7 @@ const path = d3.geoPath(projection);
 
 const width = 960;
 const height = 500;
-const board = { instances: 1, rows: 1 };
+const board = { rows: 1, columns: 1 };
 
 const topology = {
   transform: {
